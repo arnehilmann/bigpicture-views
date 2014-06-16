@@ -11,12 +11,14 @@
 .node {
   stroke: #555;
   stroke-width: 1px;
+  fill: grey;
 }
 .node circle {
 }
 .node.active {
   stroke: #f00;
   stroke-width: 1.5px;
+  fill: #f00;
 }
 .node.selected {
   stroke: #f00;
