@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<html>
+	<head>
+		<title>bigpicture | live state | filtered hive</title>
+		<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css" />
+		<link rel="stylesheet" type="text/css" href="css/bootstrap-theme.min.css" />
+		<link rel="stylesheet" type="text/css" href="css/hive.css" />
+	</head>
+	<body>
+		<ol class="breadcrumb">
+			<li><a href="/index.html">bigpicture</a></li>
+			<li><a href="/live-state/index.html">live state</a></li>
+			<li><a href="index.html" class="variant-text"></a></li>
+			<li class="active">filtered hive</li>
+		</ol>
+
+		<table>
+                    <tr>
+                        <td id="graph_0_0"></td>
+		        <td id="graph_0_1"></td>
+                    </tr>
+                </table>
+                <div id="infoText">| | |</div>
+
+		<script src="js/d3.min.js"></script>
+		<script src="js/jquery-2.1.1.min.js"></script>
+		<script src="js/link.js"></script>
+		<script src="js/hive.js"></script>
+		<script>
+			var variant = window.location.pathname.split("/").reverse()[1];
+			console.log("variant: " + variant);
+			$(".variant-text").html(variant);
+
+			var source = getUrlVar("source");
+			source = (source === "") ? "model.live.reduced.json" : source;
+			console.log("source: " + source);
+
+                        var entrypoint = getUrlVar("configEntryPoint");
+
+                        var nodeFilter = getUrlVar("nodeFilter");
+                        nodeFilter = (nodeFilter === "") ? "*" : nodeFilter;
+
+			var size = getUrlVar("size");
+			size = (size === "") ? 400 : +size;
+
+                        var actualDataHive = filteredHive(source, nodeFilter)
+                            .render("#graph_0_0", "#infoText", size)
+                            .then(function(hive) {
+                                var configDataHive = filteredHive(entrypoint, hive.createRegExpForSelectedNodes())
+                                    .render("#graph_0_1", "#infoText", size);
+                            })
+                            ;
+
+		</script>
+	</body>
+</html>
+
+
